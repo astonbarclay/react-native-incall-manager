@@ -1269,6 +1269,14 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
     return nil;
 }
 
+RCT_EXPORT_METHOD(chooseAudioRoute:(NSString *) route
+        resolve:(RCTPromiseResolveBlock)resolve
+        reject:(RCTPromiseRejectBlock)reject)
+{
+    NSLog(@"chooseAudioRoute: Not doing anything/Not implemented");
+    resolve(nil);
+}
+
 #pragma mark - AVAudioPlayerDelegate
 
 // --- this only called when all loop played. it means, an infinite (numberOfLoops = -1) loop will never into here.
