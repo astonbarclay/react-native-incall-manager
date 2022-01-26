@@ -553,6 +553,7 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
     // --- It would have some race condition if we change audio mode with webrtc at the same time.
     // --- So we should not change audio mode as possible as we can. Only when default video call which wants to force speaker off.
     // --- audio: only override speaker on/off; video: should change category if needed and handle proximity sensor. ( because default proximity is off when video call )
+    audioMode = AVAudioSessionModeSpokenAudio;
     if (_forceSpeakerOn == 1) {
         // --- force ON, override speaker only, keep audio mode remain.
         overrideAudioPort = AVAudioSessionPortOverrideSpeaker;
@@ -600,6 +601,10 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
     } else {
         NSLog(@"RNInCallManager.updateAudioRoute() did NOT change audio mode");
     }
+
+    [self audioSessionSetCategory:AVAudioSessionCategoryPlayback
+                          options:0
+                       callerMemo:NSStringFromSelector(_cmd)];
     //self.debugAudioSession()
 }
 
