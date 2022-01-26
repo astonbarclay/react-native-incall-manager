@@ -100,7 +100,7 @@ RCT_EXPORT_MODULE(InCallManager)
         _audioSessionMediaServicesWereResetObserver = nil;
         _audioSessionSilenceSecondaryAudioHintObserver = nil;
 
-        _incallAudioMode = AVAudioSessionModeMoviePlayback;
+        _incallAudioMode = AVAudioSessionModeSpokenAudio;
         _incallAudioCategory = AVAudioSessionCategoryPlayback;
         _origAudioCategory = nil;
         _origAudioMode = nil;
@@ -140,7 +140,7 @@ RCT_EXPORT_METHOD(start:(NSString *)mediaType
     if ([_media isEqualToString:@"video"]) {
         _incallAudioMode = AVAudioSessionModeMoviePlayback;
     } else {
-        _incallAudioMode = AVAudioSessionModeMoviePlayback;
+        _incallAudioMode = AVAudioSessionModeSpokenAudio;
     }
     NSLog(@"RNInCallManager.start() start InCallManager. media=%@, type=%@, mode=%@", _media, _media, _incallAudioMode);
     [self storeOriginalAudioSetup];
@@ -246,7 +246,7 @@ RCT_EXPORT_METHOD(setSpeakerphoneOn:(BOOL)enable)
         @try {
             success = [_audioSession setCategory:AVAudioSessionCategoryPlayback error:&error];
             if (!success)  NSLog(@"Cannot set category due to error: %@", error);
-            success = [_audioSession setMode:AVAudioSessionModeMoviePlayback error:&error];
+            success = [_audioSession setMode:AVAudioSessionModeSpokenAudio error:&error];
             if (!success)  NSLog(@"Cannot set mode due to error: %@", error);
             [_audioSession setPreferredOutputNumberOfChannels:0 error:nil];
             if (!success)  NSLog(@"Port override failed due to: %@", error);
@@ -266,7 +266,7 @@ RCT_EXPORT_METHOD(setSpeakerphoneOn:(BOOL)enable)
                         withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
                         error:nil];
             if (!success)  NSLog(@"Cannot set category due to error: %@", error);
-            success = [_audioSession setMode:AVAudioSessionModeMoviePlayback error: &error];
+            success = [_audioSession setMode:AVAudioSessionModeSpokenAudio error: &error];
             if (!success)  NSLog(@"Cannot set mode due to error: %@", error);
             [_audioSession setPreferredOutputNumberOfChannels:0 error:nil];
             [_audioSession overrideOutputAudioPort:[AVAudioSessionPortBuiltInSpeaker intValue] error: &error];
@@ -573,7 +573,7 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
         overrideAudioPort = AVAudioSessionPortOverrideNone;
         overrideAudioPortString = @".None";
         if ([_media isEqualToString:@"video"]) {
-            audioMode = AVAudioSessionModeMoviePlayback;
+            audioMode = AVAudioSessionModeVideoChat;
             [self stopProximitySensor];
         }
     }
