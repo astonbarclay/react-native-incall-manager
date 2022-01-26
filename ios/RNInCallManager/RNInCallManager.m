@@ -927,10 +927,10 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
                                            }];
                     }
                     break;
-                case AVAudioSessionRouteChangeReasonCategoryChange:
-                    NSLog(@"RNInCallManager.AudioRouteChange.Reason: CategoryChange. category=%@ mode=%@", self->_audioSession.category, self->_audioSession.mode);
-                    [self updateAudioRoute];
-                    break;
+//                case AVAudioSessionRouteChangeReasonCategoryChange:
+//                    NSLog(@"RNInCallManager.AudioRouteChange.Reason: CategoryChange. category=%@ mode=%@", self->_audioSession.category, self->_audioSession.mode);
+//                    [self updateAudioRoute];
+//                    break;
                 case AVAudioSessionRouteChangeReasonOverride:
                     NSLog(@"RNInCallManager.AudioRouteChange.Reason: Override");
                     break;
