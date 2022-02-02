@@ -98,8 +98,8 @@ RCT_EXPORT_MODULE(InCallManager)
         _audioSessionMediaServicesWereResetObserver = nil;
         _audioSessionSilenceSecondaryAudioHintObserver = nil;
 
-        _incallAudioMode = AVAudioSessionModeVoiceChat;
-        _incallAudioCategory = AVAudioSessionCategoryPlayAndRecord;
+        _incallAudioMode = AVAudioSessionModeSpokenAudio;
+        _incallAudioCategory = AVAudioSessionCategoryPlayback;
         _origAudioCategory = nil;
         _origAudioMode = nil;
         _audioSessionInitialized = NO;
