@@ -134,9 +134,9 @@ RCT_EXPORT_METHOD(start:(NSString *)mediaType
 
     // --- auto is always true on ios
     if ([_media isEqualToString:@"video"]) {
-        _incallAudioMode = AVAudioSessionModeVideoChat;
+        _incallAudioMode = AVAudioSessionModeMoviePlayback;
     } else {
-        _incallAudioMode = AVAudioSessionModeVoiceChat;
+        _incallAudioMode = AVAudioSessionModeSpokenAudio;
     }
     NSLog(@"RNInCallManager.start() start InCallManager. media=%@, type=%@, mode=%@", _media, _media, _incallAudioMode);
     [self storeOriginalAudioSetup];
@@ -240,9 +240,9 @@ RCT_EXPORT_METHOD(setSpeakerphoneOn:(BOOL)enable)
     if(!enable){
         NSLog(@"Routing audio via Earpiece");
         @try {
-            success = [_audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
+            success = [_audioSession setCategory:AVAudioSessionCategoryPlayback error:&error];
             if (!success)  NSLog(@"Cannot set category due to error: %@", error);
-            success = [_audioSession setMode:AVAudioSessionModeVoiceChat error:&error];
+            success = [_audioSession setMode:AVAudioSessionModeSpokenAudio error:&error];
             if (!success)  NSLog(@"Cannot set mode due to error: %@", error);
             [_audioSession setPreferredOutputNumberOfChannels:0 error:nil];
             if (!success)  NSLog(@"Port override failed due to: %@", error);
@@ -258,11 +258,11 @@ RCT_EXPORT_METHOD(setSpeakerphoneOn:(BOOL)enable)
         NSLog(@"Routing audio via Loudspeaker");
         @try {
             NSLog(@"Available routes: %@", routes[0]);
-            success = [_audioSession setCategory:AVAudioSessionCategoryPlayAndRecord
+            success = [_audioSession setCategory:AVAudioSessionCategoryPlayback
                         withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker
                         error:nil];
             if (!success)  NSLog(@"Cannot set category due to error: %@", error);
-            success = [_audioSession setMode:AVAudioSessionModeVoiceChat error: &error];
+            success = [_audioSession setMode:AVAudioSessionCategoryPlayback error: &error];
             if (!success)  NSLog(@"Cannot set mode due to error: %@", error);
             [_audioSession setPreferredOutputNumberOfChannels:0 error:nil];
             [_audioSession overrideOutputAudioPort:[AVAudioSessionPortBuiltInSpeaker intValue] error: &error];
@@ -456,7 +456,7 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
         overrideAudioPort = AVAudioSessionPortOverrideSpeaker;
         overrideAudioPortString = @".Speaker";
         if ([_media isEqualToString:@"video"]) {
-            audioMode = AVAudioSessionModeVideoChat;
+            audioMode = AVAudioSessionModeMoviePlayback;
             [self stopProximitySensor];
         }
     } else if (_forceSpeakerOn == -1) {
@@ -464,14 +464,14 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
         overrideAudioPort = AVAudioSessionPortOverrideNone;
         overrideAudioPortString = @".None";
         if ([_media isEqualToString:@"video"]) {
-            audioMode = AVAudioSessionModeVoiceChat;
+            audioMode = AVAudioSessionModeSpokenAudio;
             [self startProximitySensor];
         }
     } else { // use default behavior
         overrideAudioPort = AVAudioSessionPortOverrideNone;
         overrideAudioPortString = @".None";
         if ([_media isEqualToString:@"video"]) {
-            audioMode = AVAudioSessionModeVideoChat;
+            audioMode = AVAudioSessionModeMoviePlayback;
             [self stopProximitySensor];
         }
     }
